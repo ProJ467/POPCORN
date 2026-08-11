@@ -735,8 +735,21 @@
     // SERVER
     // =========================
 
-    const server =
-        "http://127.0.0.1:8000";
+    const LOCAL_SERVER = "http://127.0.0.1:8000";
+
+    function detectServer() {
+        if (location.hostname === "127.0.0.1" || location.hostname === "localhost") {
+            return LOCAL_SERVER;
+        }
+
+        if (window.POPCORN_SERVER) {
+            return window.POPCORN_SERVER;
+        }
+
+        return location.origin;
+    }
+
+    const server = detectServer();
 
 
     // =========================

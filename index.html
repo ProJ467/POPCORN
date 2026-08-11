@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>POPCORN</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #0f0f0f;
+            color: white;
+        }
+
+        header {
+            min-height: 70px;
+            padding: 15px 30px;
+
+            display: flex;
+            align-items: center;
+            gap: 20px;
+
+            background: #151515;
+            border-bottom: 1px solid #292929;
+        }
+
+        .logo {
+            font-size: 26px;
+            font-weight: bold;
+            white-space: nowrap;
+        }
+
+        .logo span {
+            margin-right: 8px;
+        }
+
+        .search {
+            flex: 1;
+            max-width: 600px;
+
+            padding: 12px 18px;
+
+            border: 1px solid #333;
+            border-radius: 25px;
+
+            background: #202020;
+            color: white;
+
+            outline: none;
+        }
+
+        .search::placeholder {
+            color: #777;
+        }
+
+        .buttons {
+            margin-left: auto;
+
+            display: flex;
+            gap: 10px;
+        }
+
+        .button {
+            display: inline-block;
+
+            padding: 11px 16px;
+
+            border-radius: 10px;
+
+            font-weight: bold;
+            text-decoration: none;
+
+            transition: 0.2s;
+        }
+
+        .button:hover {
+            transform: scale(1.03);
+        }
+
+        .upload {
+            background: #292929;
+            color: white;
+        }
+
+        .premium {
+            background: #ffcc00;
+            color: #111;
+        }
+
+        main {
+            padding: 40px;
+        }
+
+        .welcome {
+            margin-bottom: 40px;
+        }
+
+        .welcome h1 {
+            font-size: 42px;
+            margin-bottom: 10px;
+        }
+
+        .welcome p {
+            color: #aaa;
+            font-size: 18px;
+        }
+
+        .section-title {
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+
+        .projects {
+            display: grid;
+
+            grid-template-columns:
+                repeat(auto-fill, minmax(250px, 1fr));
+
+            gap: 20px;
+        }
+
+        .project {
+            background: #191919;
+
+            border: 1px solid #292929;
+            border-radius: 15px;
+
+            padding: 20px;
+
+            transition: 0.2s;
+
+            cursor: pointer;
+
+            overflow: hidden;
+        }
+
+        .project:hover {
+            transform: translateY(-4px);
+            border-color: #555;
+        }
+
+        .project-preview {
+            width: 100%;
+            height: 150px;
+
+            display: flex;
+
+            align-items: center;
+            justify-content: center;
+
+            background: #111;
+
+            border-radius: 12px;
+
+            margin-bottom: 15px;
+
+            overflow: hidden;
+        }
+
+        .project-preview img {
+            width: 100%;
+            height: 100%;
+
+            object-fit: cover;
+
+            display: block;
+        }
+
+        .project-icon {
+            font-size: 55px;
+        }
+
+        .project h3 {
+            margin: 0 0 8px;
+
+            word-break: break-word;
+        }
+
+        .project p {
+            color: #888;
+
+            margin: 0;
+
+            word-break: break-word;
+        }
+
+        .project-type {
+            margin-top: 15px;
+
+            display: inline-block;
+
+            padding: 5px 9px;
+
+            border-radius: 7px;
+
+            background: #292929;
+
+            color: #bbb;
+
+            font-size: 13px;
+        }
+
+        .empty {
+            color: #777;
+
+            padding: 40px;
+
+            text-align: center;
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<header>
+
+    <div class="logo">
+        <span>🍿</span> POPCORN
+    </div>
+
+
+    <input
+        class="search"
+        id="search"
+        type="text"
+        placeholder="Search projects..."
+    >
+
+
+    <div class="buttons">
+
+        <a
+            href="upload.html"
+            class="button upload"
+        >
+            📤 Upload
+        </a>
+
+
+        <a
+            href="more-popcorns.html"
+            class="button premium"
+        >
+            🍿 More Popcorns
+        </a>
+
+    </div>
+
+</header>
+
+
+<main>
+
+    <section class="welcome">
+
+        <h1>
+            Welcome to POPCORN 🍿
+        </h1>
+
+        <p>
+            Create. Upload. Share.
+        </p>
+
+    </section>
+
+
+    <h2 class="section-title">
+        🎬 Latest Projects
+    </h2>
+
+
+    <section
+        class="projects"
+        id="projects"
+    >
+
+        <div class="empty">
+            Loading projects... 🍿
+        </div>
+
+    </section>
+
+</main>
+
+
+<script>
+
+    const projects =
+        document.getElementById("projects");
+
+    const search =
+        document.getElementById("search");
+
+
+    let allFiles = [];
+
+
+    const server =
+        "http://127.0.0.1:8000";
+
+
+    const imageExtensions = [
+        "png",
+        "jpg",
+        "jpeg",
+        "gif",
+        "webp"
+    ];
+
+
+    async function loadProjects() {
+
+        try {
+
+            const response =
+                await fetch(
+                    server + "/files"
+                );
+
+
+            if (!response.ok) {
+                throw new Error(
+                    "Failed to load files."
+                );
+            }
+
+
+            const data =
+                await response.json();
+
+
+            allFiles =
+                data.files;
+
+
+            displayProjects(allFiles);
+
+
+        } catch (error) {
+
+            console.error(error);
+
+            projects.innerHTML = `
+                <div class="empty">
+                    ❌ Could not connect to
+                    POPCORN Server.
+                </div>
+            `;
+
+        }
+
+    }
+
+
+    function displayProjects(files) {
+
+        projects.innerHTML = "";
+
+
+        if (files.length === 0) {
+
+            projects.innerHTML = `
+                <div class="empty">
+                    🍿 No projects yet.
+                </div>
+            `;
+
+            return;
+        }
+
+
+        files.forEach(file => {
+
+            const extension =
+                file.filename
+                    .split(".")
+                    .pop()
+                    .toLowerCase();
+
+
+            const isImage =
+                imageExtensions.includes(
+                    extension
+                );
+
+
+            let icon = "📦";
+            let action = "Open";
+
+
+            if (extension === "mp4") {
+
+                icon = "🎬";
+                action = "▶ Watch";
+
+            }
+
+            else if (extension === "mp3") {
+
+                icon = "🎵";
+                action = "♪ Listen";
+
+            }
+
+            else if (extension === "html") {
+
+                icon = "🌐";
+                action = "Open";
+
+            }
+
+            else if (extension === "py") {
+
+                icon = "🐍";
+                action = "Open";
+
+            }
+
+            else if (isImage) {
+
+                icon = "🖼️";
+                action = "View";
+
+            }
+
+
+            const card =
+                document.createElement("div");
+
+
+            card.className =
+                "project";
+
+
+            let preview;
+
+
+            if (isImage) {
+
+                preview = `
+
+                    <div class="project-preview">
+
+                        <img
+                            src="${server}/uploads/${encodeURIComponent(file.filename)}"
+                            alt="${file.filename}"
+                        >
+
+                    </div>
+
+                `;
+
+            }
+
+            else {
+
+                preview = `
+
+                    <div class="project-preview">
+
+                        <div class="project-icon">
+                            ${icon}
+                        </div>
+
+                    </div>
+
+                `;
+
+            }
+
+
+            card.innerHTML = `
+
+                ${preview}
+
+                <h3>
+                    ${file.filename}
+                </h3>
+
+                <p>
+                    ${action}
+                </p>
+
+                <span class="project-type">
+                    ${extension.toUpperCase()}
+                </span>
+
+            `;
+
+
+            card.onclick =
+                function () {
+
+                    window.location.href =
+                        "project.html?file=" +
+                        encodeURIComponent(
+                            file.filename
+                        );
+
+                };
+
+
+            projects.appendChild(card);
+
+        });
+
+    }
+
+
+    search.addEventListener(
+        "input",
+        function () {
+
+            const query =
+                search.value.toLowerCase();
+
+
+            const filtered =
+                allFiles.filter(
+                    file =>
+                        file.filename
+                            .toLowerCase()
+                            .includes(query)
+                );
+
+
+            displayProjects(filtered);
+
+        }
+    );
+
+
+    loadProjects();
+
+</script>
+
+
+</body>
+
+</html>

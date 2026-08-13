@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Account | POPCORN</title>
+
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/dark-theme.css">
+
+    <style>
+        /* Account-specific overrides kept local to this page */
+        .account-title { font-size: 36px; font-weight: 700; margin-bottom: 10px; }
+        .account-subtitle { color: #aaa; font-size: 16px; margin-bottom: 35px; }
+        .account-id { background: #101010; border: 1px solid #363636; border-radius: 9px; padding: 14px; color: white; font-family: "Roboto Mono", monospace; font-size: 14px; overflow-x: auto; }
+        .copy-button { border: none; border-radius: 9px; padding: 14px 20px; background: #292929; color: white; font-size: 14px; font-weight: 600; cursor: pointer; }
+        .copy-button:hover { background: #383838; }
+        .account-description { color: #999; font-size: 13px; margin-top: 12px; }
+        .account-value { color: #ddd; font-size: 16px; }
+        .online { color: #65d66f; font-weight: 600; }
+        .version { color: #ddd; font-family: "Roboto Mono", monospace; }
+        .account-icon { font-size: 42px; margin-bottom: 15px; }
+    </style>
+</head>
+
+<body>
+
+    <!-- =====================================================
+         HEADER
+    ====================================================== -->
+
+    <header class="site-header">
+
+        <div class="logo">
+            🍿 POPCORN
+        </div>
+
+        <div class="search-container">
+            <input
+                type="text"
+                placeholder="Search projects..."
+                class="search-input"
+            >
+        </div>
+
+        <div class="header-actions">
+
+            <a
+                href="index.html"
+                class="header-button"
+                title="Back to POPCORN home"
+            >
+                ← POPCORN
+            </a>
+
+            <a
+                href="account.html"
+                class="header-button"
+            >
+                👤 Account
+            </a>
+
+            <a
+                href="upload.html"
+                class="header-button"
+            >
+                📤 Upload
+            </a>
+
+            <a
+                href="more-popcorns.html"
+                class="header-button more-popcorns"
+            >
+                🍿 More Popcorns
+            </a>
+
+        </div>
+
+    </header>
+
+
+    <!-- =====================================================
+         ACCOUNT
+    ====================================================== -->
+
+    <main class="account-container">
+
+        <div class="account-icon">
+            👤
+        </div>
+
+        <h1 class="account-title">
+            Your Account
+        </h1>
+
+        <p class="account-subtitle">
+            Your POPCORN account information.
+        </p>
+
+
+        <!-- ACCOUNT ID -->
+
+        <section class="account-panel">
+
+            <h2>
+                Account ID
+            </h2>
+
+            <div class="account-id-box">
+
+                <div
+                    id="account-id"
+                    class="account-id"
+                >
+                    Loading...
+                </div>
+
+                <button
+                    type="button"
+                    class="copy-button"
+                    onclick="copyAccountId()"
+                >
+                    Copy
+                </button>
+
+            </div>
+
+            <p class="account-description">
+                This is your unique POPCORN Account ID.
+            </p>
+
+        </section>
+
+
+        <!-- ACCOUNT CREATED -->
+
+        <section class="account-panel">
+
+            <h2>
+                Account Created
+            </h2>
+
+            <div
+                id="account-created"
+                class="account-value"
+            >
+                Loading...
+            </div>
+
+        </section>
+
+
+        <!-- STATUS -->
+
+        <section class="account-panel">
+
+            <h2>
+                Status
+            </h2>
+
+            <div class="account-value online">
+                🟢 Online
+            </div>
+
+        </section>
+
+
+        <!-- VERSION -->
+
+        <section class="account-panel">
+
+            <h2>
+                POPCORN Version
+            </h2>
+
+            <div class="account-value version">
+                0.02v
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <!-- =====================================================
+         FOOTER
+    ====================================================== -->
+
+    <footer class="site-footer">
+
+        <p>
+            🍿 POPCORN 0.02v
+        </p>
+
+    </footer>
+
+
+    <!-- =====================================================
+         ACCOUNT JAVASCRIPT
+    ====================================================== -->
+
+    <script src="js/account.js"></script>
+
+</body>
+</html>
